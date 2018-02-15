@@ -1,4 +1,5 @@
 require "./text_color.rb"
+require "./player.rb"
 
 module Tools
 
@@ -67,44 +68,76 @@ module Tools
 	end
 
 	def game(player)
-		input = ""
-		loop do
+		catch :quit_loop do
 			input = ""
-			gallow(player.misses)
+			
+			loop do
+				input = ""
+				gallow(player.misses)
 
-			puts "\nMissed: #{ player.misses_array }"
+				puts "\nMissed: #{ player.misses_array }"
 
-			puts "Correct: #{ player.hits }"
+				puts "Correct: #{ player.hits }"
 
-			puts "\nPlease enter a guess:"
-			print "> "
+				puts "\nPlease enter a guess or enter \"Save\" if you wish to save your state and quit:"
+				print "> "
 
-			while input = gets.chomp
-				if input.length == 1 && input.match?(/^[a-z]$/i)
-					if player.word_array.include?(input)
-						player.hits[player.word_array.find_index(input)] = input
-						player.word_array[player.word_array.find_index(input)] = nil
+				while input = gets.chomp
+					if input.length == 1 && input.match?(/^[a-z]$/i)
+						if player.word_array.include?(input)
+							player.hits[player.word_array.find_index(input)] = input
+							player.word_array[player.word_array.find_index(input)] = nil
+						else
+							player.misses_array << input
+							player.misses += 1
+						end
+						break
+					elsif input.match?(/^save$/i)
+						save_state(player)
+						puts "\nGoodbye! Hope to see you soon!"
+						throw :quit_loop
 					else
-						player.misses_array << input
-						player.misses += 1
+						puts "Incorrect input. Single letter input only. Please enter a guess:"
+						print "> "
 					end
+				end
+
+				if player.misses_array.length == 6
+					gallow(player.misses)
+					puts "\nHangman has been completed! You lose."
+					puts "The word was: #{ player.word.red }"
 					break
-				else
-					puts "Incorrect input. Single letter input only. Please enter a guess:"
-					print "> "
+				elsif player.word_array.all?(nil)
+					puts "\nThe word is: #{ player.word.red }"
+					puts "You guessed the word. Congratulations!"
+					break
 				end
 			end
+		end
+	end
 
-			if player.misses_array.length == 6
-				gallow(player.misses)
-				puts "\nHangman has been completed! You lose."
-				puts "The word was: #{ player.word.red }"
+	def save_state(player)
+		puts "Please enter name for save file:"
+		print "> "
+
+		while save_name = gets.chomp
+			if !save_name.match?(/\W+/)
 				break
-			elsif player.word_array.all?(nil)
-				puts "\nThe word is: #{ player.word.red }"
-				puts "You guessed the word. Congratulations!"
-				break
+			else
+				puts "\nPlease use only alpha-numeric characters."
+				print "> "
 			end
+		end
+
+		Dir.mkdir("../saves") unless Dir.exists?("../saves")
+
+		file = "../saves/#{save_name}.json"
+
+		json_string = player.to_json
+
+		File.open(file, "w+") do |file|
+			file.puts JSON.parse(json_string)
+			puts
 		end
 	end
 

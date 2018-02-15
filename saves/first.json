@@ -1,0 +1,1 @@
+{"json_class"=>"Player", "data"=>{"name"=>"Derrick", "misses"=>5, "misses_array"=>["a", "i", "o", "u", "c"], "word_array"=>["m", "y", "s", nil, "l", "f"], "word"=>"myself", "hits"=>["*", "*", "*", "e", "*", "*"], "difficulty"=>"1"}}
