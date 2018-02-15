@@ -20,6 +20,8 @@ puts %[
 
 intro_menu
 
-puts "\nPlease enter your name:".pink
+puts "\nPlease enter your name:"
 print "> "
 player = Player.new(gets.chomp)
+
+puts "\nWelcome, #{player.name}!"

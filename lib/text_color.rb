@@ -17,7 +17,7 @@ module CoreExtensions
 		    colorize(33)
 		  end
 
-		  def blue
+		  def purple
 		    colorize(34)
 		  end
 
