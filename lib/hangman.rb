@@ -1,5 +1,6 @@
 require "./player.rb"
 require "./hm_module.rb"
+require "./text_color.rb"
 include Tools
 
 player = ""
@@ -15,10 +16,10 @@ puts %[
 |_| |_|\\__,_|_| |_|\\__, |_| |_| |_|\\__,_|_| |_|
                     __/ |                      
                    |___/   
-]
+].light_blue
 
 intro_menu
 
-puts "\nPlease enter your name:"
+puts "\nPlease enter your name:".pink
 print "> "
 player = Player.new(gets.chomp)
