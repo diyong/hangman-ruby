@@ -5,7 +5,7 @@ class Player
 
 	def initialize(name)
 		@name = name
-		@misses = 0
+		@misses = []
 		@word = []
 		@hits = []
 		@difficulty = ""

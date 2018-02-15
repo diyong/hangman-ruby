@@ -26,11 +26,11 @@ player = Player.new(gets.chomp)
 
 puts "\nWelcome, #{player.name}!"
 
-case player.difficulty = difficulty_setting
-when "1"
-	p difficulty_generator(player.difficulty)
-when "2"
-	p difficulty_generator(player.difficulty)
-when "3"
-	p difficulty_generator(player.difficulty)
-end
+#player.difficulty is generated through the difficulty_setting method and
+#player.word is generated through difficulty_generator.
+player.word = difficulty_generator(player.difficulty = difficulty_setting)
+
+game(player.word, player.misses)
+
+
+

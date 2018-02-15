@@ -63,7 +63,123 @@ module Tools
 		when "2"
 			words.select { |word| word.length < 10 && word.length > 6 }.sample.split("")
 		when "3"
-			words.select { |word| word.length < 13 && word.lengthy > 9 }.sample.split("")
+			words.select { |word| word.length < 13 && word.length > 9 }.sample.split("")
 		end
+	end
+
+	def game(wrd_arry, misses)
+		
+
+	end
+
+	def gallow(num)
+		pic = []
+
+		pic[0] = <<HEREDOC
+    +------------+
+                 |
+                 |
+                 |
+                 |
+                 |
+                 |
+                 |
+                 |
+                 |
+ ------------------
+|__________________|
+HEREDOC
+		
+		pic[1] = <<HEREDOC
+    +------------+
+    |            |
+   /o\\           |
+  o   o          |
+   \\o/           |
+                 |
+                 |
+                 |
+                 |
+                 |
+ ------------------
+|__________________|
+HEREDOC
+
+		pic[2] = <<HEREDOC
+    +------------+
+    |            |
+   /o\\           |
+  o   o          |
+   \\o/           |
+    |            |
+    |            |
+    |            |
+                 |
+                 |
+ ------------------
+|__________________|
+HEREDOC
+		
+		pic[3] = <<HEREDOC
+    +------------+
+    |            |
+   /o\\           |
+  o   o          |
+   \\o/           |
+   _|            |
+  / |            |
+    |            |
+                 |
+                 |
+ ------------------
+|__________________|
+HEREDOC
+
+		pic[4] = <<HEREDOC
+    +------------+
+    |            |
+   /o\\           |
+  o   o          |
+   \\o/           |
+   _|_           |
+  / | \\          |
+    |            |
+                 |
+                 |
+ ------------------
+|__________________|
+HEREDOC
+
+		pic[5] = <<HEREDOC
+    +------------+
+    |            |
+   /o\\           |
+  o   o          |
+   \\o/           |
+   _|_           |
+  / | \\          |
+    |_           |
+       \\         |
+                 |
+ ------------------
+|__________________|
+HEREDOC
+
+		pic[6] = <<HEREDOC
+    +------------+
+    |            |
+   /o\\           |
+  o   o          |
+   \\o/           |
+   _|_           |
+  / | \\          |
+   _|_           |
+  /   \\          |
+                 |
+ ------------------
+|__________________|
+HEREDOC
+
+		puts pic[num]
 	end
 end
