@@ -43,15 +43,27 @@ module Tools
 			input = gets.chomp
 			case input
 			when "1"
-				#code
+				return "1"
 			when "2"
-				#code
+				return "2"
 			when "3"
-				#code
+				return "3"
 			else
 				puts "Incorrect input."
 			end
 		end
 	end
 
+	def difficulty_generator(string)
+		words = File.readlines("../5desk.txt", chomp: true)
+
+		case string
+		when "1"
+			words.select { |word| word.length < 7 && word.length > 4 }.sample.split("")
+		when "2"
+			words.select { |word| word.length < 10 && word.length > 6 }.sample.split("")
+		when "3"
+			words.select { |word| word.length < 13 && word.lengthy > 9 }.sample.split("")
+		end
+	end
 end

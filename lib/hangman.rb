@@ -25,3 +25,12 @@ print "> "
 player = Player.new(gets.chomp)
 
 puts "\nWelcome, #{player.name}!"
+
+case player.difficulty = difficulty_setting
+when "1"
+	p difficulty_generator(player.difficulty)
+when "2"
+	p difficulty_generator(player.difficulty)
+when "3"
+	p difficulty_generator(player.difficulty)
+end
