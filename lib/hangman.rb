@@ -27,10 +27,12 @@ player = Player.new(gets.chomp)
 puts "\nWelcome, #{player.name}!"
 
 #player.difficulty is generated through the difficulty_setting method and
-#player.word is generated through difficulty_generator.
-player.word = difficulty_generator(player.difficulty = difficulty_setting)
+#player.word_array is generated through difficulty_generator.
+player.word_array = difficulty_generator(player.difficulty = difficulty_setting)
+player.word = player.word_array.join("")
+player.hits = Array.new(player.word_array.length, default  = "*")
 
-game(player.word, player.misses)
+game(player)
 
 
 

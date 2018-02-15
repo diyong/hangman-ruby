@@ -17,7 +17,6 @@ module Tools
 			input = gets.chomp
 			case input
 			when "1"
-				#code
 				break
 			when "2"
 				puts "Under development. Please select a different option."
@@ -67,9 +66,46 @@ module Tools
 		end
 	end
 
-	def game(wrd_arry, misses)
-		
+	def game(player)
+		input = ""
+		loop do
+			input = ""
+			gallow(player.misses)
 
+			puts "\nMissed: #{ player.misses_array }"
+
+			puts "Correct: #{ player.hits }"
+
+			puts "\nPlease enter a guess:"
+			print "> "
+
+			while input = gets.chomp
+				if input.length == 1 && input.match?(/^[a-z]$/i)
+					if player.word_array.include?(input)
+						player.hits[player.word_array.find_index(input)] = input
+						player.word_array[player.word_array.find_index(input)] = nil
+					else
+						player.misses_array << input
+						player.misses += 1
+					end
+					break
+				else
+					puts "Incorrect input. Single letter input only. Please enter a guess:"
+					print "> "
+				end
+			end
+
+			if player.misses_array.length == 6
+				gallow(player.misses)
+				puts "\nHangman has been completed! You lose."
+				puts "The word was: #{ player.word.red }"
+				break
+			elsif player.word_array.all?(nil)
+				puts "\nThe word is: #{ player.word.red }"
+				puts "You guessed the word. Congratulations!"
+				break
+			end
+		end
 	end
 
 	def gallow(num)
