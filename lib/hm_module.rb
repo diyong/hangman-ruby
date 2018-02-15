@@ -1,5 +1,10 @@
+#Working on load_state. Generating JSON file works fine now from the player 
+#class. Loading the save file works as well. I need to work on incorporating 
+#the saved values back into the game to pick up where the player left off.
+
 require "./text_color.rb"
 require "./player.rb"
+require "json"
 
 module Tools
 
@@ -20,7 +25,7 @@ module Tools
 			when "1"
 				break
 			when "2"
-				puts "Under development. Please select a different option."
+				load_state
 			when "3"
 				puts "\nInstructions".purple
 				puts "------------".purple
@@ -29,6 +34,29 @@ module Tools
 				puts "Incorrect input."	
 			end
 		end
+	end
+
+	def load_state
+		saves = Dir.entries("../saves/").select { |file| file.match?(/[json]$/) }
+		puts "\nYour current save files are:"
+		puts "----------------------------"
+		puts saves
+
+		puts "\nPlease enter filename to load:"
+		print "> "
+
+		while input = gets.chomp.downcase
+			if saves.include?("#{input}.json")
+				file = File.read("../saves/#{input}.json")
+				break
+			else
+				puts "Please only enter the filename w/o the extension (\".json\"):"
+				print "> "
+			end
+		end
+
+		data_hash = JSON.parse(file, :quirks_mode => true)
+		puts data_hash
 	end
 
 	def difficulty_setting
@@ -120,7 +148,7 @@ module Tools
 		puts "Please enter name for save file:"
 		print "> "
 
-		while save_name = gets.chomp
+		while save_name = gets.chomp.downcase
 			if !save_name.match?(/\W+/)
 				break
 			else
@@ -136,7 +164,7 @@ module Tools
 		json_string = player.to_json
 
 		File.open(file, "w+") do |file|
-			file.puts JSON.parse(json_string)
+			file.puts JSON.generate(json_string)
 			puts
 		end
 	end

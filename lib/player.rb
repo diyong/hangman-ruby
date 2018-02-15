@@ -26,9 +26,4 @@ class Player
 		}.to_json(*a)
 	end
 
-	def self.json_create(o)
-		new(o["data"]["name"], o["data"]["misses"], o["data"]["misses_array"], o["data"]["word_array"], o["data"]["word"], o["data"]["hits"], o["data"]["difficulty"])
-	end
-
-	
 end
