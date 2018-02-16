@@ -32,31 +32,6 @@ module Tools
 		end
 	end
 
-	def load_state
-		saves = Dir.entries("../saves/").select { |file| file.match?(/[json]$/) }
-		puts "\nYour current save files are:"
-		puts "----------------------------"
-		puts saves
-
-		puts "\nPlease enter filename to load:"
-		print "> "
-
-		while input = gets.chomp.downcase
-			if saves.include?("#{input}.json")
-				file = File.read("../saves/#{input}.json")
-				break
-			else
-				puts "Please only enter the filename w/o the extension (\".json\"):"
-				print "> "
-			end
-		end
-
-		hash_data = JSON.parse(file)
-		player = Player.new(hash_data["name"])
-		player.load_data(hash_data)
-		game(player)
-	end
-
 	def difficulty_setting
 		puts "\nThe Computer will now select a random word from a precompiled list. Please set your desired difficulty."
 
@@ -188,6 +163,31 @@ module Tools
 			file.puts json_string
 			puts
 		end
+	end
+
+	def load_state
+		saves = Dir.entries("../saves/").select { |file| file.match?(/[json]$/) }
+		puts "\nYour current save files are:"
+		puts "----------------------------"
+		saves.each { |file| puts file.pink }
+
+		puts "\nPlease enter filename to load:"
+		print "> "
+
+		while input = gets.chomp.downcase
+			if saves.include?("#{input}.json")
+				file = File.read("../saves/#{input}.json")
+				break
+			else
+				puts "Please only enter the filename w/o the extension (\".json\"):"
+				print "> "
+			end
+		end
+
+		hash_data = JSON.parse(file)
+		player = Player.new(hash_data["name"])
+		player.load_data(hash_data)
+		game(player)
 	end
 
 	def gallow(num)

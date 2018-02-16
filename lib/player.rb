@@ -15,7 +15,6 @@ class Player
 		@difficulty = ""
 	end
 
-	#might have to get rid of this
 	def load_data(hsh)
 		@misses = hsh["misses"]
 		@misses_array = hsh["misses_array"]
@@ -39,17 +38,4 @@ class Player
 	def to_json(*options)
 		as_json(*options).to_json(*options)
 	end
-
-=begin
-	def to_s
-		"In Player:\n   #{@name}, #{@misses}, #{@misses_array}, #{@word_array}, #{@word}, #{@hits}, #{@difficulty}\n"
-	end
-
-	def to_json(*a)
-		{
-			"json_class"   => self.class.name,
-			"data"				 => { "name" => @name, "misses" => @misses, "misses_array" => @misses_array, "word_array" => @word_array, "word" => @word, "hits" => @hits, "difficulty" => @difficulty }
-		}.to_json(*a)
-	end
-=end
 end
