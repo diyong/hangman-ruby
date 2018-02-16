@@ -55,8 +55,10 @@ module Tools
 			end
 		end
 
-		data_hash = JSON.parse(file, :quirks_mode => true)
-		puts data_hash
+		hash_data = JSON.parse(file)
+		player = Player.new(hash_data["name"])
+		player.load_data(hash_data)
+		game(player)
 	end
 
 	def difficulty_setting
@@ -164,7 +166,7 @@ module Tools
 		json_string = player.to_json
 
 		File.open(file, "w+") do |file|
-			file.puts JSON.generate(json_string)
+			file.puts json_string
 			puts
 		end
 	end
