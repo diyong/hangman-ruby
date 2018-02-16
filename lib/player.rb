@@ -27,7 +27,6 @@ class Player
 
 	def as_json(options = {})
 		{
-			name: @name,
 			misses: @misses,
 			misses_array: @misses_array,
 			word_array: @word_array,

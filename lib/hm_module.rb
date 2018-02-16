@@ -1,7 +1,3 @@
-#Working on load_state. Generating JSON file works fine now from the player 
-#class. Loading the save file works as well. I need to work on incorporating 
-#the saved values back into the game to pick up where the player left off.
-
 require "./text_color.rb"
 require "./player.rb"
 require "json"
@@ -98,50 +94,73 @@ module Tools
 	end
 
 	def game(player)
-		catch :quit_loop do
+		input = ""
+		
+		loop do
 			input = ""
-			
-			loop do
-				input = ""
-				gallow(player.misses)
+			gallow(player.misses)
 
-				puts "\nMissed: #{ player.misses_array }"
+			puts "\nMissed: #{ player.misses_array }"
 
-				puts "Correct: #{ player.hits }"
+			puts "Correct: #{ player.hits }"
 
-				puts "\nPlease enter a guess or enter \"Save\" if you wish to save your state and quit:"
-				print "> "
+			puts "\nPlease enter a guess or enter \"Save\" if you wish to save your state and quit:"
+			print "> "
 
-				while input = gets.chomp
-					if input.length == 1 && input.match?(/^[a-z]$/i)
-						if player.word_array.include?(input)
-							player.hits[player.word_array.find_index(input)] = input
-							player.word_array[player.word_array.find_index(input)] = nil
-						else
-							player.misses_array << input
-							player.misses += 1
-						end
-						break
-					elsif input.match?(/^save$/i)
-						save_state(player)
-						puts "\nGoodbye! Hope to see you soon!"
-						throw :quit_loop
+			while input = gets.chomp
+				if input.length == 1 && input.match?(/^[a-z]$/i)
+					if player.word_array.include?(input)
+						player.hits[player.word_array.find_index(input)] = input
+						player.word_array[player.word_array.find_index(input)] = nil
 					else
-						puts "Incorrect input. Single letter input only. Please enter a guess:"
-						print "> "
+						player.misses_array << input
+						player.misses += 1
 					end
+					break
+				elsif input.match?(/^save$/i)
+					save_state(player)
+					puts "Goodbye! Hope to see you soon!"
+					exit(0)
+				else
+					puts "Incorrect input. Single letter input only. Please enter a guess:"
+					print "> "
 				end
+			end
 
-				if player.misses_array.length == 6
-					gallow(player.misses)
-					puts "\nHangman has been completed! You lose."
-					puts "The word was: #{ player.word.red }"
-					break
-				elsif player.word_array.all?(nil)
-					puts "\nThe word is: #{ player.word.red }"
-					puts "You guessed the word. Congratulations!"
-					break
-				end
+			if player.misses_array.length == 6
+				gallow(player.misses)
+				puts "\nHangman has been completed! You lose."
+				puts "The word was: #{ player.word.red }"
+				break
+			elsif player.word_array.all?(nil)
+				puts "\nThe word is: #{ player.word.red }"
+				puts "You guessed the word. Congratulations!"
+				break
+			end
+		end
+		replay(player)
+	end
+
+	def replay(player)
+		puts "\nWould you like to play again? (Y/N)"
+		print "> "
+
+		while input = gets.chomp.downcase
+			case input
+			when "y"
+				player.word_array = difficulty_generator(player.difficulty = difficulty_setting)
+				player.word = player.word_array.join("")
+				player.hits = Array.new(player.word_array.length, default  = "*")
+				player.misses = 0
+				player.misses_array = Array.new
+
+				game(player)
+			when "n"
+				puts "\nGoodbye!"
+				exit(0)
+			else
+				puts "\nIncorrect input. Please select either Y or N."
+				print "> "
 			end
 		end
 	end
